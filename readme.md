@@ -4,3 +4,4 @@ kelompok 2 section surabaya
 -yogie harus bisa loh
 -AnisaRahmawati
 -AyuPratikaPutri
+yang lain pada kemana nih?
