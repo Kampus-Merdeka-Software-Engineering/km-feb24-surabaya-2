@@ -399,6 +399,26 @@ body {
   color: var(--white);
 }
 
+footer{
+  background-color:#E2E5EC;
+}
+
+.footerButtom{
+  background-color: #E2E5EC;
+  padding: 20px;
+  text-align: center;
+}
+.footerButtom p{
+  color: #222;
+}
+.designer{
+  opacity: 0,7;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 400;
+  margin: 0px 5px;
+}
+
 /* ====================== Responsive Design ========================== */
 @media (max-width: 991px) {
   .navigation {
