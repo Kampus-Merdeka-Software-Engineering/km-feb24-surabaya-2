@@ -8,6 +8,9 @@
     <title>Vending Machine Sales</title>
     <!-- ======= Styles css ====== -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+  
+   
 </head>
 
 <body>
@@ -33,7 +36,7 @@
                     </a>
                 </li>
 
-                <li>
+                <!-- <li>
                     <a href="analytics.html">
                         <span class="icon">
                             <ion-icon name="pulse"></ion-icon>
@@ -41,7 +44,7 @@
                         <span class="title">Visualization</span>
                     </a>
                 </li>
-                
+                 -->
                 <li>
                     <a href="team.html">
                         <span class="icon">
@@ -72,9 +75,77 @@
                 </div>
             
             </div>
-
+            <div class="container">
+                <header>
+                    <h1>Dashboard <span>Vending Machine Sales</span></h1>
+                </header>
+                <div class="filters">
+                    <select id="category">
+                        <option>Search Category</option>
+                    </select>
+                    <select id="product">
+                        <option>Search Product</option>
+                    </select>
+                </div>
+                <div class="container">
+                <div class="stats">
+                    <div class="stat-card">
+                        <h2>Average Revenue</h2>
+                        <p>$15,38 M</p>
+                    </div>
+                    <div class="stat-card">
+                        <h2>PERCENTAGE GROWTH</h2>
+                        <p>57.529.685 <span class="growth">↑ 61.4%</span></p>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="product-list">
+                        <table id="example" class="display">
+                            <thead>
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Device_ID</th>
+                                    <th>Location</th>
+                                    <th>Machine</th>
+                                    <th>Product</th>
+                                    <th>Categoty</th>
+                                    <th>Transaction</th>
+                                    <th>TransDate</th>
+                                    <th>Type</th>
+                                    <th>Rcoil</th>
+                                    <th>Rprice</th>
+                                    <th>RQty</th>
+                                    <th>Mcoil</th>
+                                    <th>MPrice</th>
+                                    <th>MQty</th>
+                                    <th>LineTotal</th>
+                                    <th>TransTotal</th>
+                                    <th>Prcd_Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="example-body"></tbody>
+                        </table>
+                    </div>
+                    <div class="transaction-type">
+                        <h3>Transaction Type</h3>
+                        <canvas id="transactionChart"></canvas>
+                    </div>
+                    <div class="total-revenue">
+                        <h3>Total Revenue Monthly</h3>
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                    <div class="sales-category">
+                        <h3>Total Sales by Category</h3>
+                        <canvas id="salesCategoryChart"></canvas>
+                    </div>
+                    <div class="sales">
+                        <h3>Total Sales by Location </h3>
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+            </div>
             <!-- ======================= konten headbar ================== -->
-            <div class="cardBox">
+            <!-- <div class="cardBox">
                 <div class="card">
                     <div>
                         <div class="numbers">1,504</div>
@@ -118,10 +189,10 @@
                         <ion-icon name="cash-outline"></ion-icon>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- ================ product, href view all nanti ke analytics/data  ================= -->
-            <div class="details">
+            <!-- <div class="details">
                 <div class="Product">
                     <div class="cardHeader">
                         <h2>product</h2>
@@ -196,10 +267,10 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> -->
 
                 <!-- ================= revou surabaya jaya jaya ================ -->
-                <div class="ourteam">
+                <!-- <div class="ourteam">
                     <div class="cardHeader">
                         <h2>Our Team</h2>
                     </div>
@@ -277,7 +348,7 @@
                         </tr>
                     </table>
                 </div>
-            </div>
+            </div> -->
             <footer class="footerButtom">
                 <p>Copyright &copy;2024; Design by<span class="designer">Team 2 Surabaya</span></p>
             </footer>
@@ -291,6 +362,9 @@
     <!-- ====== ionicons buat icon ======= -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    
 </body>
 
 </html>

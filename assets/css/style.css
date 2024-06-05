@@ -418,6 +418,92 @@ footer{
   font-weight: 400;
   margin: 0px 5px;
 }
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #e1dede;
+}
+
+header {
+  background-color: var(--blue);
+  color: #fff;
+  padding: 1rem;
+  text-align: center;  
+   
+
+}
+/* .container {
+  margin: 2rem auto;
+  max-width: 1200px;
+  background-color: #fff;
+  padding: 2rem;
+} */
+
+.filters {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.filters select, .filters input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+
+  background-color: var(--blue);
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+  width: 45%;
+}
+
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.product-list {
+  grid-column: span 2;
+}
+
+.product-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-list th, .product-list td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.transaction-type, .total-revenue, .sales-category, .sales {
+  background-color: white;
+  padding: 20px;
+  border-radius: 4px;
+
+}
+
+footer{
+  background-color: #dddce3;
+  color: #0a0332;
+  text-align: center;
+ 
+ 
+}
 
 /* ====================== Responsive Design ========================== */
 @media (max-width: 991px) {
