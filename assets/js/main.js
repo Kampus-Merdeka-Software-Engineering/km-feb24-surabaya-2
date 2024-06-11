@@ -249,10 +249,12 @@ function drawCharts(totalByTypeData, revMonthly, categoryData, monthlyData) {
       labels: labelsTransaction,
       datasets: [
         {
-          label: "Total Type Transaction",
+          label: "Type Transaction",
           data: dvTransaction,
           backgroundColor: ["rgba(253, 189, 42)", "rgba(17, 24, 39)"],
           borderWidth: 1,
+          borderRadius: 5,
+          borderSkipped: false,
         },
       ],
     },

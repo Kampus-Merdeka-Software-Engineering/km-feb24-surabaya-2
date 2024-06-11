@@ -166,28 +166,6 @@ body {
   cursor: pointer
 }
 
-.search {
-  position: relative;
-  width: 400px;
-  margin: 0 10px;
-}
-
-.search label {
-  position: relative;
-  width: 100%;
-}
-
-.search label input {
-  width: 100%;
-  height: 40px;
-  border-radius: 40px;
-  padding: 5px 20px;
-  padding-left: 35px;
-  font-size: 18px;
-  outline: none;
-  border: 1px solid var(--black2);
-}
-
 .search label ion-icon {
   position: absolute;
   top: 0;
@@ -209,16 +187,16 @@ body {
   object-fit: cover;
 }
 
-header{
+.topbar header{
   color: var(--blue);
   padding: 1rem;
   text-align: center;
 }
 
-.header h1 {
+/* .header h1 {
   font-size: 22px;
   margin-bottom: 10px;
-}
+} */
 
 .header span {
   font-size: 22px;
@@ -242,6 +220,7 @@ header{
 
 .stats {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   padding: 30px;
   gap: 20px;
@@ -290,6 +269,7 @@ header{
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
+  overflow-x: auto;
 }
 
 .product-list table {
@@ -382,8 +362,62 @@ canvas {
     white-space: nowrap;
   }
 
+  .topbar header{
+    font-size: 10px;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: center;
+}
+
+.filters select {
+    width: 70%;
+}
+
+.stats {
+  flex-direction: column;
+}
+
+.stat-card {
+  width: 100%;
+  margin: 10px 0;
+}
+
   .transaction-type, .total-revenue, .sales-category, .sales-month {
     flex: 1 1 100%;
+
+    .product-list table thead {
+      display: none;
+  }
+
+  .product-list table, 
+  .product-list table tbody, 
+  .product-list table tr, 
+  .product-list table td {
+      display: block;
+      width: 100%;
+  }
+
+  .product-list table tr {
+      margin-bottom: 15px;
+  }
+
+  .product-list table td {
+      text-align: right;
+      padding-left: 50%;
+      position: relative;
+  }
+
+  .product-list table td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      width: 50%;
+      padding-left: 15px;
+      font-weight: bold;
+      text-align: left;
+  }
 }
 
 }
