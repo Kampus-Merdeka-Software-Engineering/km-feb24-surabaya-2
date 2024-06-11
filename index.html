@@ -9,8 +9,6 @@
     <!-- ======= Styles css ====== -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
-  
-   
 </head>
 
 <body>
@@ -21,12 +19,11 @@
                 <li>
                     <a href="#">
                         <span class="icon">
-                            <img src="assets/imgs/vending.svg" width="25px" alt="">
+                            <img src="assets/imgs/vending.svg" width="25px" alt="Vending Icon">
                         </span>
                         <span class="title">Vending Machine Sales</span>
                     </a>
                 </li>
-
                 <li>
                     <a href="#">
                         <span class="icon">
@@ -35,16 +32,6 @@
                         <span class="title">Dashboard</span>
                     </a>
                 </li>
-
-                <!-- <li>
-                    <a href="analytics.html">
-                        <span class="icon">
-                            <ion-icon name="pulse"></ion-icon>
-                        </span>
-                        <span class="title">Visualization</span>
-                    </a>
-                </li>
-                 -->
                 <li>
                     <a href="team.html">
                         <span class="icon">
@@ -53,7 +40,7 @@
                         <span class="title">Team</span>
                     </a>
                 </li>
-
+            </ul>
         </div>
 
         <!-- ========================= Main isi konten ==================== -->
@@ -62,43 +49,35 @@
                 <div class="toggle">
                     <ion-icon name="menu-outline"></ion-icon>
                 </div>
-
-                <div class="search">
-                    <label>
-                        <input type="text" placeholder="Search here">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </label>
-                </div>
-                
-                <div class="user">
-                    <img src="assets/imgs/logo.png" alt="">
-                </div>
-            
-            </div>
-            <div class="container">
                 <header>
                     <h1>Dashboard <span>Vending Machine Sales</span></h1>
                 </header>
+                <div class="user">
+                    <img src="assets/imgs/logo.png" alt="User Logo">
+                </div>
+            </div>
+
+            <div class="content-container">
+                
                 <div class="filters">
-                    <select id="category">
-                        <option>Search Category</option>
+                    <select id="categoryDropdown" >
+                        <option value="all">Search Category</option>
                     </select>
-                    <select id="product">
-                        <option>Search Product</option>
+                    <select id="productDropdown" >
+                        <option value="all">Search Product</option>
                     </select>
                 </div>
-                <div class="container">
                 <div class="stats">
                     <div class="stat-card">
                         <h2>Average Revenue</h2>
-                        <p>$15,38 M</p>
+                        <p id="average-revenue"></p>
                     </div>
                     <div class="stat-card">
-                        <h2>PERCENTAGE GROWTH</h2>
-                        <p>57.529.685 <span class="growth">↑ 61.4%</span></p>
+                        <h2>Top Sales Location</h2>
+                        <p id="top-Sales"></p>
                     </div>
                 </div>
-                <div class="content">
+                <div class="data-section">
                     <div class="product-list">
                         <table id="example" class="display">
                             <thead>
@@ -108,19 +87,10 @@
                                     <th>Location</th>
                                     <th>Machine</th>
                                     <th>Product</th>
-                                    <th>Categoty</th>
-                                    <th>Transaction</th>
+                                    <th>Category</th>
                                     <th>TransDate</th>
                                     <th>Type</th>
-                                    <th>Rcoil</th>
-                                    <th>Rprice</th>
-                                    <th>RQty</th>
-                                    <th>Mcoil</th>
-                                    <th>MPrice</th>
-                                    <th>MQty</th>
-                                    <th>LineTotal</th>
                                     <th>TransTotal</th>
-                                    <th>Prcd_Date</th>
                                 </tr>
                             </thead>
                             <tbody id="example-body"></tbody>
@@ -138,233 +108,27 @@
                         <h3>Total Sales by Category</h3>
                         <canvas id="salesCategoryChart"></canvas>
                     </div>
-                    <div class="sales">
-                        <h3>Total Sales by Location </h3>
-                        <canvas id="salesChart"></canvas>
+                    <div class="sales-month">
+                        <h3>Total Transaction per Month </h3>
+                        <canvas id="salesMonth"></canvas>
                     </div>
                 </div>
             </div>
-            <!-- ======================= konten headbar ================== -->
-            <!-- <div class="cardBox">
-                <div class="card">
-                    <div>
-                        <div class="numbers">1,504</div>
-                        <div class="cardName">Daily Views</div>
-                    </div>
 
-                    <div class="iconBx">
-                        <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">80</div>
-                        <div class="cardName">Sales</div>
-                    </div>
-
-                    <div class="iconBx">
-                        <ion-icon name="cart-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">284</div>
-                        <div class="cardName">Comments</div>
-                    </div>
-
-                    <div class="iconBx">
-                        <ion-icon name="chatbubbles-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">$7,842</div>
-                        <div class="cardName">Earning</div>
-                    </div>
-
-                    <div class="iconBx">
-                        <ion-icon name="cash-outline"></ion-icon>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- ================ product, href view all nanti ke analytics/data  ================= -->
-            <!-- <div class="details">
-                <div class="Product">
-                    <div class="cardHeader">
-                        <h2>product</h2>
-                        <a href="#" class="btn">View All</a>
-                    </div>
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>Product</td>
-                                <td>Price</td>
-                                <td>Payment</td>
-                                <td>Location</td>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr>
-                                <td>Monster Energy Original</td>
-                                <td>$5</td>
-                                <td>Cash</td>
-                                <td><span class="status library">Library</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>Red Bull Original</td>
-                                <td>$4</td>
-                                <td>Cash</td>
-                                <td><span class="status gutenplans">Gutenplans</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>Coca Cola - Zero Sugar</td>
-                                <td>$6</td>
-                                <td>Credit</td>
-                                <td><span class="status SQmall">SQmall</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>Sunkist Soda - Orange</td>
-                                <td>$6</td>
-                                <td>Credit</td>
-                                <td><span class="status SQmall">SQmall</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>Monster Energy Original</td>
-                                <td>$5</td>
-                                <td>Cash</td>
-                                <td><span class="status library">Library</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>Red Bull Original</td>
-                                <td>$4</td>
-                                <td>Cash</td>
-                                <td><span class="status gutenplans">Gutenplans</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>Coca Cola - Zero Sugar</td>
-                                <td>$6</td>
-                                <td>Credit</td>
-                                <td><span class="status SQmall">SQmall</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>Sunkist Soda - Orange</td>
-                                <td>$6</td>
-                                <td>Credit</td>
-                                <td><span class="status SQmall">SQmall</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div> -->
-
-                <!-- ================= revou surabaya jaya jaya ================ -->
-                <!-- <div class="ourteam">
-                    <div class="cardHeader">
-                        <h2>Our Team</h2>
-                    </div>
-
-                    <table>
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="assets/imgs/dinar.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Dinar <br> <span>Bogor</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="assets/imgs/elda.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Elda <br> <span>Semarang</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="assets/imgs/ayu.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Ayu <br> <span>Makasar</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="assets/imgs/anisa.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Anisa <br> <span>Cikarang</span></h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="assets/imgs/yogi.png" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Yogie <br> <span>Tangerang</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="assets/imgs/yoga.jpg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Yogi <br> <span>Bali</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="assets/imgs/dinar.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Camelia <br> <span>Jakarta</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="assets/imgs/elda.jpeg" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Agnes <br> <span>Lombok</span></h4>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div> -->
             <footer class="footerButtom">
-                <p>Copyright &copy;2024; Design by<span class="designer">Team 2 Surabaya</span></p>
+                <p>Copyright &copy;2024; Design by <span class="designer">Team 2 Surabaya</span></p>
             </footer>
         </div>
-        
     </div>
 
     <!-- =========== Scripts =========  -->
     <script src="assets/js/main.js"></script>
-
     <!-- ====== ionicons buat icon ======= -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 </html>

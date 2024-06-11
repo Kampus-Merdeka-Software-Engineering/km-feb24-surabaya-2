@@ -1,32 +1,31 @@
-// buat nambahin hovered di sidebar list item icon
+// Buat nambahin hovered di sidebar list item icon
 let list = document.querySelectorAll(".navigation li");
 
 function activeLink() {
-  list.forEach((item) => {
-    item.classList.remove("hovered");
-  });
+  list.forEach((item) => item.classList.remove("hovered"));
   this.classList.add("hovered");
 }
 
 list.forEach((item) => item.addEventListener("mouseover", activeLink));
 
-//Menu Toggle
+// Menu Toggle
 let toggle = document.querySelector(".toggle");
 let navigation = document.querySelector(".navigation");
 let main = document.querySelector(".main");
 
- toggle.onclick = function () {
-   navigation.classList.toggle("active");
-   main.classList.toggle("active");
+toggle.onclick = function () {
+  navigation.classList.toggle("active");
+  main.classList.toggle("active");
 };
 
+// Fungsi untuk menghitung rata-rata pendapatan
 function avgRevenue(datas) {
   let calculate = 0;
   for (let i = 0; i < datas.length; i++) {
     if (datas[i]["TransTotal"] == typeof String) {
-      tidyUp = datas[i]['TransTotal'].replace(",", ".");
+      tidyUp = datas[i]["TransTotal"].replace(",", ".");
       intData = parseFloat(tidyUp);
-    }else{
+    } else {
       intData = parseFloat(datas[i]["TransTotal"]);
     }
     calculate += intData;
@@ -34,6 +33,60 @@ function avgRevenue(datas) {
   return calculate / datas.length;
 }
 
+// Fungsi untuk menghitung total penjualan per lokasi
+function calculateSales(data) {
+  const salesByLocation = {};
+
+  data.forEach(transaction => {
+      const location = transaction.Location;
+      const total = parseFloat(transaction.TransTotal);
+
+      if (salesByLocation[location]) {
+          salesByLocation[location] += total;
+      } else {
+          salesByLocation[location] = total;
+      }
+  });
+
+  return salesByLocation;
+}
+
+// Fungsi untuk menemukan lokasi dengan penjualan tertinggi
+function findTopSalesLocation(salesByLocation) {
+  let topLocation = '';
+  let maxSales = 0;
+
+  for (const location in salesByLocation) {
+      if (salesByLocation[location] > maxSales) {
+          maxSales = salesByLocation[location];
+          topLocation = location;
+      }
+  }
+
+  return { topLocation, maxSales };
+}
+
+// Fungsi untuk menghitung pertumbuhan persentase 'percentageGrowth'
+function revenueMonthly(datas) {
+  let result = {};
+  for (let i = 0; i < datas.length; i++) {
+    let month = datas[i]["TransDate"].split("/")[1];
+    let key = `${month}`;
+    if (!result[key]) {
+      result[key] = 0;
+    }
+    let intData;
+    if (typeof datas[i]["TransTotal"] === "string") {
+      intData = parseFloat(datas[i]["TransTotal"].replace(",", "."));
+    } else {
+      intData = parseFloat(datas[i]["TransTotal"]);
+    }
+    result[key] += intData;
+  }
+  return result;
+}
+
+// Fungsi untuk menghitung total transaksi berdasarkan jenis
 function transactionTotalbyType(datas) {
   let result = {};
   for (let i = 0; i < datas.length; i++) {
@@ -41,7 +94,7 @@ function transactionTotalbyType(datas) {
       result[datas[i]["Type"]] = 0;
     }
     if (datas[i]["TransTotal"] == typeof String) {
-      tidyUp = datas[i]['TransTotal'].replace(",", ".");
+      tidyUp = datas[i]["TransTotal"].replace(",", ".");
       intData = parseFloat(tidyUp);
     }
     result[datas[i]["Type"]] += intData;
@@ -49,6 +102,23 @@ function transactionTotalbyType(datas) {
   return result;
 }
 
+// Fungsi untuk menghitung total transaksi berdasarkan kategori
+function transactionCategory(datas) {
+  let result = {};
+  for (let i = 0; i < datas.length; i++) {
+    if (result[datas[i]["Category"]] == undefined) {
+      result[datas[i]["Category"]] = 0;
+    }
+    if (datas[i]["TransTotal"] == typeof String) {
+      tidyUp = datas[i]["TransTotal"].replace(",", ".");
+      intData = parseFloat(tidyUp);
+    }
+    result[datas[i]["Category"]] += intData;
+  }
+  return result;
+}
+
+// Fungsi untuk menghitung transaksi bulanan
 function transactionMonthly(datas) {
   let result = {};
   for (let i = 0; i < datas.length; i++) {
@@ -58,7 +128,7 @@ function transactionMonthly(datas) {
       result[key] = 0;
     }
     if (datas[i]["TransTotal"] == typeof String) {
-      tidyUp = datas[i]['TransTotal'].replace(",", ".");
+      tidyUp = datas[i]["TransTotal"].replace(",", ".");
       intData = parseFloat(tidyUp);
     }
     result[key] += intData;
@@ -66,181 +136,304 @@ function transactionMonthly(datas) {
   return result;
 }
 
-function transactionCategory(datas) {
-  let result = {};
+// Fungsi untuk memvalidasi data
+function validateData(datas) {
+  let validatedData = [];
   for (let i = 0; i < datas.length; i++) {
-    if (result[datas[i]["Category"]] == undefined) {
-      result[datas[i]["Category"]] = 0;
-    }
-    if (datas[i]["TransTotal"] == typeof String) {
-      tidyUp = datas[i]['TransTotal'].replace(",", ".");
-      intData = parseFloat(tidyUp);
-    }
-    result[datas[i]["Category"]] += intData;
+    // datas[i]["RCoil"] = datas[i]["RCoil"].toString();
+    // datas[i]["RPrice"] = datas[i]["RPrice"].toString();
+    // datas[i]["RQty"] = datas[i]["RQty"].toString();
+    // datas[i]["MCoil"] = datas[i]["MCoil"].toString();
+    // datas[i]["MPrice"] = datas[i]["MPrice"].toString();
+    // datas[i]["MQty"] = datas[i]["MQty"].toString();
+    // datas[i]["LineTotal"] = datas[i]["LineTotal"].toString();
+    datas[i]["TransTotal"] = datas[i]["TransTotal"].toString();
+    validatedData.push(datas[i]);
   }
-  return result;
+  return datas;
 }
 
-function validateData(datas){
-  let validatedData = []
-  for (let i = 0; i < datas.length; i++) {
-      datas[i]["RCoil"] = toString(datas[i]["RCoil"])
-      datas[i]["RPrice"] = toString(datas[i]["RPrice"])
-      datas[i]["RQty"] = toString(datas[i]["RQty"])
-      datas[i]["MCoil"] = toString(datas[i]["MCoil"])
-      datas[i]["MPrice"] = toString(datas[i]["MPrice"])
-      datas[i]["MQty"] = toString(datas[i]["MQty"])
-      datas[i]["LineTotal"] = toString(datas[i]["LineTotal"])
-      datas[i]["TransTotal"] = toString(datas[i]["TransTotal"])
-      validatedData.push(datas[i])
+// Fungsi untuk menginisialisasi DataTable
+function initializeDataTable(data) {
+  if ($.fn.DataTable.isDataTable("#example")) {
+    $("#example").DataTable().destroy();
   }
-  return datas
-}
 
-// function buildBarChart(data, title, id) 
-
-// function buildDataTables(data, id)
-
-function fetchData(filtered = null) {
-  fetch("./assets/json/sales_vendingmachine.json").
-  then(response => response.json()).
-  then(datas => {
-
-    if (filtered != null) {
-    // function to update the data with filter
-    }
-    
-    // average revenue
-    avgRevenue = avgRevenue(datas);
-    console.log(avgRevenue);
-
-    // prepare bar chart for transaction type -> transTotal
-    totalByTypeData = transactionTotalbyType(datas);
-    console.log(totalByTypeData);
-
-    // prepare bar chart for transaction monthly
-    monthlyData = transactionMonthly(datas);
-    console.log(monthlyData);
-
-    // prepare bar chart total sales by category
-    categoryData = transactionCategory(datas);
-    console.log(categoryData);
-
-    const table = new DataTable("#example", {
-      stateSave: true,
-      stateLoadParams: function (settings, data) {
-        data.search.search = "";
-      },
-      responsive: true,
-      columns: [
-        { data: "Status" },
-        { data: "Device_ID" },
-        { data: "Location" },
-        { data: "Machine" },
-        { data: "Product" },
-        { data: "Category" },
-        { data: "Transaction" },
-        { data: "TransDate" },
-        { data: "Type" },
-        { data: "RCoil" },
-        { data: "RPrice" },
-        { data: "RQty" },
-        { data: "MCoil" },
-        { data: "MPrice" },
-        { data: "MQty" },
-        { data: "LineTotal" },
-        { data: "TransTotal" },
-        { data: "Prcd_Date" },
-      ],
-    });
-
-    datas.forEach((item) => {
-      table.row.add({
-        Status: item.Status,
-        Device_ID: item.Device_ID,
-        Location: item.Location,
-        Machine: item.Machine,
-        Product: item.Product,
-        Category: item.Category,
-        Transaction: item.Transaction,
-        TransDate: item.TransDate,
-        Type: item.Type,
-        RCoil: item.RCoil,
-        RPrice: item.RPrice,
-        RQty: item.RQty,
-        MCoil: item.MCoil,
-        MPrice: item.MPrice,
-        MQty: item.MQty,
-        LineTotal: item.LineTotal,
-        TransTotal: item.TransTotal,
-        Prcd_Date: item.Prcd_Date,
-      }).draw();
-    });
+  $("#example").DataTable({
+    data: data,
+    columns: [
+      { data: "Status" },
+      { data: "Device_ID" },
+      { data: "Location" },
+      { data: "Machine" },
+      { data: "Product" },
+      { data: "Category" },
+      { data: "TransDate" },
+      { data: "Type" },
+      { data: "TransTotal" },
+    ],
   });
 }
 
-// onchange event for select
-// filtered by product
+// Fungsi untuk mengisi dropdown kategori
+// Fungsi untuk mengisi dropdown kategori dan produk
+function populateDropdown(datas) {
+  let categoryDropdown = document.getElementById("categoryDropdown");
+  let productDropdown = document.getElementById("productDropdown");
 
+  let categories = new Set();
+  let products = new Set();
+
+  datas.forEach((item) => {
+    categories.add(item.Category);
+    products.add(item.Product);
+  });
+
+  categories.forEach((category) => {
+    let option = document.createElement("option");
+    option.value = category;
+    option.text = category;
+    categoryDropdown.appendChild(option);
+  });
+
+  products.forEach((product) => {
+    let option = document.createElement("option");
+    option.value = product;
+    option.text = product;
+    productDropdown.appendChild(option);
+  });
+}
+
+//fungsi chart
+
+function drawCharts(totalByTypeData, revMonthly, categoryData, monthlyData) {
+  //inisialisasi bulan
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // Mengambil data untuk chart
+  const labelsTransaction = Object.keys(totalByTypeData);
+  const dvTransaction = Object.values(totalByTypeData);
+  const labelsRevMonth = Object.keys(revMonthly)
+    .sort((a, b) => a - b)
+    .map((key) => monthNames[parseInt(key) - 1]);
+  const dvRevMonth = Object.keys(revMonthly)
+    .sort((a, b) => a - b)
+    .map((key) => revMonthly[key]);
+  const labelsCategory = Object.keys(categoryData);
+  const dvCategory = Object.values(categoryData);
+  const labelsTransMonth = Object.keys(monthlyData)
+    .sort((a, b) => a - b)
+    .map((key) => monthNames[parseInt(key) - 1]);
+  const dvTransMonth = Object.keys(monthlyData)
+    .sort((a, b) => a - b)
+    .map((key) => monthlyData[key]);
+
+  // Bagian tipe transaksi
+  const ctxTransaction = document
+    .getElementById("transactionChart")
+    .getContext("2d");
+  new Chart(ctxTransaction, {
+    type: "bar",
+    data: {
+      labels: labelsTransaction,
+      datasets: [
+        {
+          label: "Total Type Transaction",
+          data: dvTransaction,
+          backgroundColor: ["rgba(253, 189, 42)", "rgba(17, 24, 39)"],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+
+  //Bagian revenue Monthly
+  const ctxRevMonth = document.getElementById("revenueChart").getContext("2d");
+  new Chart(ctxRevMonth, {
+    type: "bar",
+    data: {
+      labels: labelsRevMonth,
+      datasets: [
+        {
+          label: "Revenue Monthly",
+          data: dvRevMonth,
+          backgroundColor: [
+            "rgba(253, 189, 42)",
+            "rgba(226, 229, 236)",
+            "rgba(17, 24, 39)",
+          ],
+          borderWidth: 1,
+          borderRadius: 5,
+          borderSkipped: false,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+      },
+    },
+  });
+
+  // Bagian kategori penjualan
+  const ctxSales = document
+    .getElementById("salesCategoryChart")
+    .getContext("2d");
+  new Chart(ctxSales, {
+    type: "bar",
+    data: {
+      labels: labelsCategory,
+      datasets: [
+        {
+          label: "Sales Category",
+          data: dvCategory,
+          backgroundColor: [
+            "rgba(253, 189, 42)",
+            "rgba(226, 229, 236)",
+            "rgba(17, 24, 39)",
+          ],
+          borderWidth: 1,
+          borderRadius: 5,
+          borderSkipped: false,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+      },
+    },
+  });
+
+  // Transaksi per bulan
+  const ctxMonth = document.getElementById("salesMonth").getContext("2d");
+  new Chart(ctxMonth, {
+    type: "bar",
+    data: {
+      labels: labelsTransMonth,
+      datasets: [
+        {
+          label: "Sales Monthly",
+          data: dvTransMonth,
+          backgroundColor: [
+            "rgba(253, 189, 42)",
+            "rgba(226, 229, 236)",
+            "rgba(17, 24, 39)",
+          ],
+          borderWidth: 1,
+          borderRadius: 5,
+          borderSkipped: false,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+      },
+    },
+  });
+}
+
+// Fungsi untuk mengambil data
+function fetchData(filteredCategory = "all", filteredProduct = "all") {
+  fetch("./assets/json/sales_vendingmachine.json")
+    .then((response) => response.json())
+    .then((datas) => {
+      // Average revenue
+      let avgRev = avgRevenue(datas);
+      document.getElementById(
+        "average-revenue"
+      ).textContent = `$${avgRev.toFixed(2)} M`;
+      console.log(avgRev);
+
+      //Top sales by location
+      let salesByLocation = calculateSales(datas);
+      const{topLocation, maxSales} = findTopSalesLocation(salesByLocation);
+      document.getElementById('top-Sales').innerText = 
+        `${topLocation} has total sales of $${maxSales.toFixed(2)}`
+
+      // PercentageGrowth / revenueMonthly
+      let revMonthly = revenueMonthly(datas);
+      console.log(revMonthly);
+
+      // Prepare bar chart for transaction type -> transTotal
+      let totalByTypeData = transactionTotalbyType(datas);
+      console.log(totalByTypeData);
+
+      // Prepare bar chart total sales by category
+      let categoryData = transactionCategory(datas);
+      console.log(categoryData);
+
+      // Prepare bar chart for transaction monthly
+      let monthlyData = transactionMonthly(datas);
+      console.log(monthlyData);
+
+      if (filteredCategory === "all" && filteredProduct === "all") {
+        populateDropdown(datas);
+      }
+
+      let filteredData = datas.filter((item) => {
+        let categoryMatch =
+          filteredCategory === "all" || item.Category === filteredCategory;
+        let productMatch =
+          filteredProduct === "all" || item.Product === filteredProduct;
+        return categoryMatch && productMatch;
+      });
+
+      initializeDataTable(filteredData);
+      drawCharts(totalByTypeData, revMonthly, categoryData, monthlyData);
+    });
+}
+
+// On change event for select, filtered by product
 document.addEventListener("DOMContentLoaded", function () {
-  fetchData(null);
+  fetchData();
+
+  document
+    .getElementById("categoryDropdown")
+    .addEventListener("change", function () {
+      let selectedCategory = this.value;
+      let selectedProduct = document.getElementById("productDropdown").value;
+      console.log(`Selected category: ${selectedCategory}`);
+      fetchData(selectedCategory, selectedProduct);
+    });
+
+  document
+    .getElementById("productDropdown")
+    .addEventListener("change", function () {
+      let selectedProduct = this.value;
+      let selectedCategory = document.getElementById("categoryDropdown").value;
+      console.log(`Selected product: ${selectedProduct}`);
+      fetchData(selectedCategory, selectedProduct);
+    });
 });
-
-// Untuk Table
-// document.addEventListener("DOMContentLoaded", () => {
-//   const table = new DataTable("#example", {
-//     stateSave: true,
-//     stateLoadParams: function (settings, data) {
-//       data.search.search = "";
-//     },
-//     responsive: true,
-//     columns: [
-//       { data: "Status" },
-//       { data: "Device_ID" },
-//       { data: "Location" },
-//       { data: "Machine" },
-//       { data: "Product" },
-//       { data: "Category" },
-//       { data: "Transaction" },
-//       { data: "TransDate" },
-//       { data: "Type" },
-//       { data: "RCoil" },
-//       { data: "RPrice" },
-//       { data: "RQty" },
-//       { data: "MCoil" },
-//       { data: "MPrice" },
-//       { data: "MQty" },
-//       { data: "LineTotal" },
-//       { data: "TransTotal" },
-//       { data: "Prcd_Date" },
-//     ],
-//   });
-
-//   fetch("assets/json/sales_vendingmachine.json")
-//   .then((res) => res.json())
-//   .then((data) => {
-//     data.forEach((item) => {
-//       table.row.add({
-//         Status: item.Status,
-//         Device_ID: item.Device_ID,
-//         Location: item.Location,
-//         Machine: item.Machine,
-//         Product: item.Product,
-//         Category: item.Category,
-//         Transaction: item.Transaction,
-//         TransDate: item.TransDate,
-//         Type: item.Type,
-//         RCoil: item.RCoil,
-//         RPrice: item.RPrice,
-//         RQty: item.RQty,
-//         MCoil: item.MCoil,
-//         MPrice: item.MPrice,
-//         MQty: item.MQty,
-//         LineTotal: item.LineTotal,
-//         TransTotal: item.TransTotal,
-//         Prcd_Date: item.Prcd_Date,
-//       }).draw();
-//     });
-//   })
-//   .catch((error) => console.error("Error fetching data:", error));
-// });
