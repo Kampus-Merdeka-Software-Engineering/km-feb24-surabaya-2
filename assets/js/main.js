@@ -242,10 +242,8 @@ function drawCharts(totalByTypeData, revMonthly, categoryData, monthlyData) {
     .map((key) => monthlyData[key]);
 
   // Bagian tipe transaksi
-  const ctxTransaction = document
-    .getElementById("transactionChart")
-    .getContext("2d");
-  new Chart(ctxTransaction, {
+  const ctxTypeTransaction = document.getElementById("transactionTypeChart").getContext("2d");
+  new Chart(ctxTypeTransaction, {
     type: "bar",
     data: {
       labels: labelsTransaction,
