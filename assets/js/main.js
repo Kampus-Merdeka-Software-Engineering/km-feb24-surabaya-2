@@ -140,13 +140,6 @@ function transactionMonthly(datas) {
 function validateData(datas) {
   let validatedData = [];
   for (let i = 0; i < datas.length; i++) {
-    // datas[i]["RCoil"] = datas[i]["RCoil"].toString();
-    // datas[i]["RPrice"] = datas[i]["RPrice"].toString();
-    // datas[i]["RQty"] = datas[i]["RQty"].toString();
-    // datas[i]["MCoil"] = datas[i]["MCoil"].toString();
-    // datas[i]["MPrice"] = datas[i]["MPrice"].toString();
-    // datas[i]["MQty"] = datas[i]["MQty"].toString();
-    // datas[i]["LineTotal"] = datas[i]["LineTotal"].toString();
     datas[i]["TransTotal"] = datas[i]["TransTotal"].toString();
     validatedData.push(datas[i]);
   }
@@ -161,6 +154,8 @@ function initializeDataTable(data) {
 
   $("#example").DataTable({
     data: data,
+    responsive: true,
+    scroller:       true,
     columns: [
       { data: "Status" },
       { data: "Device_ID" },
@@ -175,7 +170,6 @@ function initializeDataTable(data) {
   });
 }
 
-// Fungsi untuk mengisi dropdown kategori
 // Fungsi untuk mengisi dropdown kategori dan produk
 function populateDropdown(datas) {
   let categoryDropdown = document.getElementById("categoryDropdown");
@@ -204,9 +198,23 @@ function populateDropdown(datas) {
   });
 }
 
-//fungsi chart
+let typeTxChart;
+let revMonthChart;
+let salesChart;
+let monthChart;
+
+function destroyChart(chart) {
+  if (chart) {
+    chart.destroy();
+  }
+}
 
 function drawCharts(totalByTypeData, revMonthly, categoryData, monthlyData) {
+  // hapus instane chart jika sudah ada
+  destroyChart(typeTxChart);
+  destroyChart(revMonthChart);
+  destroyChart(salesChart);
+  destroyChart(monthChart);
   //inisialisasi bulan
   const monthNames = [
     "Jan",
@@ -243,18 +251,16 @@ function drawCharts(totalByTypeData, revMonthly, categoryData, monthlyData) {
 
   // Bagian tipe transaksi
   const ctxTypeTransaction = document.getElementById("transactionTypeChart").getContext("2d");
-  new Chart(ctxTypeTransaction, {
+  typeTxChart = new Chart(ctxTypeTransaction, {
     type: "bar",
     data: {
       labels: labelsTransaction,
       datasets: [
         {
-          label: "Type Transaction",
+          label: "Total Type Transaction",
           data: dvTransaction,
           backgroundColor: ["rgba(253, 189, 42)", "rgba(17, 24, 39)"],
           borderWidth: 1,
-          borderRadius: 5,
-          borderSkipped: false,
         },
       ],
     },
@@ -270,7 +276,7 @@ function drawCharts(totalByTypeData, revMonthly, categoryData, monthlyData) {
 
   //Bagian revenue Monthly
   const ctxRevMonth = document.getElementById("revenueChart").getContext("2d");
-  new Chart(ctxRevMonth, {
+  revMonthChart = new Chart(ctxRevMonth, {
     type: "bar",
     data: {
       labels: labelsRevMonth,
@@ -303,7 +309,7 @@ function drawCharts(totalByTypeData, revMonthly, categoryData, monthlyData) {
   const ctxSales = document
     .getElementById("salesCategoryChart")
     .getContext("2d");
-  new Chart(ctxSales, {
+  salesChart = new Chart(ctxSales, {
     type: "bar",
     data: {
       labels: labelsCategory,
@@ -334,7 +340,7 @@ function drawCharts(totalByTypeData, revMonthly, categoryData, monthlyData) {
 
   // Transaksi per bulan
   const ctxMonth = document.getElementById("salesMonth").getContext("2d");
-  new Chart(ctxMonth, {
+  monthChart = new Chart(ctxMonth, {
     type: "bar",
     data: {
       labels: labelsTransMonth,
@@ -398,9 +404,6 @@ function fetchData(filteredCategory = "all", filteredProduct = "all") {
       let monthlyData = transactionMonthly(datas);
       console.log(monthlyData);
 
-      if (filteredCategory === "all" && filteredProduct === "all") {
-        populateDropdown(datas);
-      }
 
       let filteredData = datas.filter((item) => {
         let categoryMatch =
@@ -410,13 +413,27 @@ function fetchData(filteredCategory = "all", filteredProduct = "all") {
         return categoryMatch && productMatch;
       });
 
-      initializeDataTable(filteredData);
-      drawCharts(totalByTypeData, revMonthly, categoryData, monthlyData);
+      if (filteredCategory !== "all" || filteredProduct !== "all") {
+        initializeDataTable(filteredData);
+        drawCharts(transactionTotalbyType(filteredData), 
+        revenueMonthly(filteredData), 
+        transactionCategory(filteredData), 
+        transactionMonthly(filteredData));
+      }else{
+        initializeDataTable(datas);
+        drawCharts(totalByTypeData, revMonthly, categoryData, monthlyData);
+      }
+
     });
 }
 
 // On change event for select, filtered by product
 document.addEventListener("DOMContentLoaded", function () {
+  fetch("./assets/json/sales_vendingmachine.json")
+    .then((response) => response.json())
+    .then((datas) => {
+      populateDropdown(datas);
+    });
   fetchData();
 
   document
