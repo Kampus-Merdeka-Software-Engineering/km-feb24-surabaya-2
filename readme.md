@@ -1,5 +1,4 @@
-# **Bold**
-![assets/imgs/logo.png](Team%202%20Section%20Surabaya)
+#Team 2 Surabaya
 
 | Nama                            |
 |---------------------------------|
